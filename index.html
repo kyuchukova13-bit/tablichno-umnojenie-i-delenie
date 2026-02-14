@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="el">
+<html lang="bg">
 <head>
     <meta charset="UTF-8">
-    <title>Πρωταθλητής Πολλαπλασιασμού και Διαίρεσης</title>
+    <title>УМНОЖЕНИЕ И ДЕЛЕНИЕ ШАМПИОН</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
     <script src="https://unpkg.com/ml5@0.12.2/dist/ml5.min.js"></script>
     <style>
@@ -10,7 +10,7 @@
         
         body { 
             margin: 0; font-family: 'Montserrat', sans-serif; 
-            background: linear-gradient(180deg, #e3f2fd 0%, #90caf9 100%); /* Blue gradient */
+            background: linear-gradient(180deg, #fce4ec 0%, #f48fb1 100%); 
             overflow: hidden; display: flex; flex-direction: column; height: 100vh;
         }
 
@@ -22,17 +22,17 @@
         }
 
         .badge {
-            font-size: 1.1em; font-weight: 900; color: #1565c0; /* Darker blue */
+            font-size: 1.1em; font-weight: 900; color: #ad1457;
             background: white; padding: 8px 15px; border-radius: 20px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1); border: 2px solid #1565c0;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1); border: 2px solid #ad1457;
             margin-right: 10px;
         }
 
         .btn-home {
-            background: #1565c0; color: white; border: none; padding: 10px 20px;
+            background: #ad1457; color: white; border: none; padding: 10px 20px;
             border-radius: 20px; font-weight: bold; cursor: pointer; transition: 0.3s;
         }
-        .btn-home:hover { background: #0d47a1; transform: scale(1.05); }
+        .btn-home:hover { background: #880e4f; transform: scale(1.05); }
 
         .game-stage {
             flex: 1; display: flex; justify-content: space-between; align-items: flex-start;
@@ -45,13 +45,13 @@
             width: 160px; height: 160px; border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
             border: 8px solid white; box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-            margin-bottom: 20px; background: linear-gradient(135deg, #42a5f5, #2196f3); /* Lighter blue */
+            margin-bottom: 20px; background: linear-gradient(135deg, #f06292, #d81b60);
         }
         .option-bubble h2 { font-size: 4.5em; margin: 0; color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
 
         .label-tag {
             background: white; padding: 5px 15px; border-radius: 10px;
-            color: #1565c0; font-weight: bold; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            color: #ad1457; font-weight: bold; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
         .gesture-img { width: 100%; height: auto; filter: drop-shadow(0 5px 15px rgba(0,0,0,0.2)); }
@@ -60,37 +60,37 @@
 
         .problem-box {
             background: white; padding: 30px 60px; border-radius: 60px;
-            border: 10px solid #1565c0; color: #0d47a1; /* Darker blue */
+            border: 10px solid #ad1457; color: #880e4f;
             font-size: 6em; font-weight: 900;
             box-shadow: 0 15px 45px rgba(0,0,0,0.2); text-align: center; min-width: 450px;
         }
 
         .feedback-text {
-            margin-top: 40px; background: #bbdefb; color: #0d47a1; /* Lighter blue */
+            margin-top: 40px; background: #f8bbd0; color: #880e4f; 
             padding: 15px 50px; border-radius: 30px; font-size: 2.2em; font-weight: bold;
-            border: 4px solid #1565c0; opacity: 0; transform: scale(0.8); transition: 0.4s;
+            border: 4px solid #ad1457; opacity: 0; transform: scale(0.8); transition: 0.4s;
         }
         .feedback-text.visible { opacity: 1; transform: scale(1); }
 
         .overlay { 
-            position: fixed; inset: 0; background: rgba(227, 242, 253, 0.98); /* Light blue transparent */
+            position: fixed; inset: 0; background: rgba(252, 228, 236, 0.98);
             display: flex; align-items: center; justify-content: center; z-index: 1000;
         }
         .modal {
             background: white; padding: 40px; border-radius: 40px; text-align: center;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.2); width: 850px; border: 12px solid #90caf9; /* Blue */
+            box-shadow: 0 30px 60px rgba(0,0,0,0.2); width: 850px; border: 12px solid #f48fb1;
         }
 
         .lvl-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin: 30px 0; }
         .lvl-card {
-            background: linear-gradient(135deg, #42a5f5, #2196f3); color: white; /* Blue */
+            background: linear-gradient(135deg, #f06292, #d81b60); color: white;
             padding: 25px; border-radius: 25px; cursor: pointer; border: 4px solid white;
             transition: 0.3s;
         }
-        .lvl-card:hover { transform: translateY(-10px); box-shadow: 0 15px 25px rgba(21,101,192,0.4); }
+        .lvl-card:hover { transform: translateY(-10px); box-shadow: 0 15px 25px rgba(173,20,87,0.4); }
 
         .btn-start {
-            background: linear-gradient(45deg, #1565c0, #0d47a1); color: white; /* Darker blue */
+            background: linear-gradient(45deg, #ad1457, #880e4f); color: white;
             font-size: 1.8em; padding: 15px 50px; border-radius: 50px; border: none;
             cursor: pointer; font-weight: 900; margin-top: 20px; transition: 0.3s;
         }
@@ -104,28 +104,28 @@
 
     <div class="top-bar">
         <div style="display:flex;">
-            <div class="badge">ΜΑΘΗΤΗΣ: <span id="studentNum">1</span></div>
-            <div class="badge">ΑΣΚΗΣΗ: <span id="progCount">1</span> / 10</div>
-            <div class="badge">ΛΑΘΗ: <span id="errorCount">0</span></div>
+            <div class="badge">УЧЕНИК: <span id="studentNum">1</span></div>
+            <div class="badge">ЗАДАЧА: <span id="progCount">1</span> / 10</div>
+            <div class="badge">ГРЕШКИ: <span id="errorCount">0</span></div>
         </div>
-        <button class="btn-home" onclick="goHome()">🏠 ΑΡΧΙΚΟ ΜΕΝΟΥ</button>
+        <button class="btn-home" onclick="goHome()">🏠 НАЧАЛНО МЕНЮ</button>
     </div>
 
     <div class="game-stage">
         <div class="side-column">
             <div id="bubbleL" class="option-bubble"><h2 id="ansL">?</h2></div>
-            <div class="label-tag">ΑΡΙΣΤΕΡΟ ΧΕΡΙ</div>
+            <div class="label-tag">ЛЯВА РЪКА</div>
             <img class="gesture-img" src="level1_left.png">
         </div>
 
         <div class="center-column">
             <div class="problem-box" id="problemDisplay">?</div>
-            <div id="feedbackBox" class="feedback-text">ΜΠΡΑΒΟ!</div>
+            <div id="feedbackBox" class="feedback-text">БРАВО!</div>
         </div>
 
         <div class="side-column">
             <div id="bubbleR" class="option-bubble"><h2 id="ansR">?</h2></div>
-            <div class="label-tag">ΔΕΞΙ ΧΕΡΙ</div>
+            <div class="label-tag">ДЯСНА РЪКА</div>
             <img class="gesture-img" src="level1_right.png">
         </div>
     </div>
@@ -134,34 +134,34 @@
 
     <div id="start-screen" class="overlay">
         <div class="modal">
-            <h1 style="color:#1565c0; font-size: 3em; margin: 0;">ΠΟΛΛΑΠΛΑΣΙΑΣΜΟΣ & ΔΙΑΙΡΕΣΗ</h1>
-            <p style="font-size: 1.3em;">Επίλεξε το επίπεδό σου:</p>
+            <h1 style="color:#ad1457; font-size: 3em; margin: 0;">УМНОЖЕНИЕ И ДЕЛЕНИЕ</h1>
+            <p style="font-size: 1.3em;">Избери своето ниво:</p>
             
             <div class="lvl-grid">
                 <div class="lvl-card" onclick="initGame(1)">
-                    <h2>ΠΟΛΛΑΠΛΑΣΙΑΣΜΟΣ</h2>
-                    <p>Πίνακας έως 10</p>
+                    <h2>УМНОЖЕНИЕ</h2>
+                    <p>Таблица до 10</p>
                 </div>
                 <div class="lvl-card" onclick="initGame(2)">
-                    <h2>ΔΙΑΙΡΕΣΗ</h2>
-                    <p>Αντίστροφες πράξεις</p>
+                    <h2>ДЕЛЕНИЕ</h2>
+                    <p>Обратни задачи</p>
                 </div>
                 <div class="lvl-card" onclick="initGame(3)">
-                    <h2>ΜΕΙΞΗ</h2>
-                    <p>Όλα μαζί</p>
+                    <h2>МИКС</h2>
+                    <p>Всичко заедно</p>
                 </div>
             </div>
 
-            <p style="color: #0d47a1; font-weight: bold; font-size: 1.2em;">Δημιουργήθηκε από: ΔΟΤΣΚΑ</p>
+            <p style="color: #880e4f; font-weight: bold; font-size: 1.2em;">Създадено от: ДОЧКА КЮЧУКОВА</p>
         </div>
     </div>
 
     <div id="end-screen" class="overlay" style="display:none;">
         <div class="modal">
-            <h1 style="font-size: 3em; color: #1565c0;">ΤΟ ΕΠΙΠΕΔΟ ΟΛΟΚΛΗΡΩΘΗΚΕ!</h1>
+            <h1 style="font-size: 3em; color: #ad1457;">НИВОТО Е ЗАВЪРШЕНО!</h1>
             <p id="finalStats" style="font-size: 1.8em; margin: 10px 0;"></p>
             <div id="finalMessage" style="font-size: 2.2em; margin: 20px 0; font-weight: 900;"></div>
-            <button class="btn-start" onclick="goHome()">ΣΥΝΕΧΕΙΑ / ΑΛΛΑΓΗ ΕΠΙΠΕΔΟΥ</button>
+            <button class="btn-start" onclick="goHome()">ПРОДЪЛЖИ / СМЕНИ НИВО</button>
         </div>
     </div>
 
@@ -171,17 +171,14 @@
     let currentTask = 0, errors = 0, currentLevel = 1;
     let taskData = null;
 
-    // Initialize camera once on window load
-    window.onload = function() {
+    // Инициализираме камерата само веднъж при зареждане
+    function setup() {
         video = createCapture(VIDEO);
         video.size(320, 240);
         video.parent('hidden-cam');
         poseNet = ml5.poseNet(video, () => console.log("AI Ready"));
         poseNet.on('pose', results => poses = results);
-        // Ensure p5 setup() is called after video is ready
-        let canvas = createCanvas(1, 1); // A tiny canvas is still needed for p5 to work
-        canvas.parent('hidden-cam');
-    };
+    }
 
     function goHome() {
         isPlaying = false;
@@ -199,21 +196,21 @@
     }
 
     function generateProblem() {
-        let a = Math.floor(Math.random() * 9) + 2; // numbers from 2 to 10
-        let b = Math.floor(Math.random() * 9) + 2; // numbers from 2 to 10
+        let a = Math.floor(Math.random() * 9) + 2;
+        let b = Math.floor(Math.random() * 9) + 2;
         let type = currentLevel;
-        if(type === 3) type = Math.random() > 0.5 ? 1 : 2; // Random for mixed level
+        if(type === 3) type = Math.random() > 0.5 ? 1 : 2;
 
-        if(type === 1) { // Multiplication
+        if(type === 1) { 
             let corr = a * b;
             let wrong = corr + (Math.random() > 0.5 ? a : -b);
-            if(wrong === corr || wrong < 1) wrong = corr + 5; // Ensure wrong answer is different and positive
+            if(wrong === corr || wrong < 1) wrong = corr + 5;
             return { q: `${a} × ${b}`, a: corr, w: wrong };
-        } else { // Division
-            let res = a * b; // Make sure division has whole number result
+        } else { 
+            let res = a * b;
             let corr = a;
             let wrong = a + (Math.random() > 0.5 ? 1 : -1);
-            if(wrong < 1 || wrong === corr) wrong = a + 2; // Ensure wrong answer is different and positive
+            if(wrong < 1 || wrong === corr) wrong = a + 2;
             return { q: `${res} : ${b}`, a: corr, w: wrong };
         }
     }
@@ -242,6 +239,7 @@
         if(!isPlaying || poses.length === 0) return;
         let p = poses[0].pose;
         let noseY = p.nose.y;
+        // Корекция за PoseNet при 320x240
         let detected = (p.leftWrist.y < noseY) ? 'L' : (p.rightWrist.y < noseY) ? 'R' : null;
 
         if(detected && detected === lastSide) {
@@ -258,14 +256,14 @@
     function checkAnswer(side) {
         isPlaying = false;
         if(side === taskData.corrSide) {
-            document.getElementById('feedbackBox').innerText = "ΕΞΑΙΡΕΤΙΚΟ! ✅"; // Excellent!
+            document.getElementById('feedbackBox').innerText = "ОТЛИЧНО! ✅";
             document.getElementById('feedbackBox').classList.add('visible');
             currentTask++;
             setTimeout(nextProblem, 2000);
         } else {
             errors++;
             document.getElementById('errorCount').innerText = errors;
-            document.getElementById('bubble' + side).style.background = "#d32f2f"; // Red for wrong
+            document.getElementById('bubble' + side).style.background = "#d32f2f";
             setTimeout(() => {
                 document.getElementById('bubble' + side).style.background = "";
                 isPlaying = true; holdCounter = 0;
@@ -276,11 +274,11 @@
     function showEnd() {
         isPlaying = false;
         document.getElementById('end-screen').style.display = 'flex';
-        document.getElementById('finalStats').innerText = `Ολοκλήρωσες 10 ασκήσεις με ${errors} λάθη.`; // You completed 10 exercises with X errors.
+        document.getElementById('finalStats').innerText = `Завърши 10 задачи с ${errors} грешки.`;
         let msg = document.getElementById('finalMessage');
-        if(errors === 0) msg.innerHTML = "🏆 ΕΙΣΑΙ ΕΝΑΣ ΤΙΤΑΝΑΣ ΤΩΝ ΜΑΘΗΜΑΤΙΚΩΝ!"; // You are a titan of mathematics!
-        else if(errors < 3) msg.innerHTML = "🌟 ΦΑΝΤΑΣΤΙΚΟ ΑΠΟΤΕΛΕΣΜΑ!"; // Fantastic result!
-        else msg.innerHTML = "👍 ΚΑΛΗ ΠΡΟΣΠΑΘΕΙΑ!"; // Good effort!
+        if(errors === 0) msg.innerHTML = "🏆 ТИ СИ ТИТАН НА МАТЕМАТИКАТА!";
+        else if(errors < 3) msg.innerHTML = "🌟 СТРАХОТЕН РЕЗУЛТАТ!";
+        else msg.innerHTML = "👍 ДОБРО УПРАЖНЕНИЕ!";
     }
 </script>
 </body>
